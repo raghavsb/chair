@@ -16,8 +16,22 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '&yk#cq@!fqymw0rliqfk@epkcdy=9c_$_f$m1owmcvf-1$r!_7'
+# SECURITY
+import json
+from django.core.exceptions import ImproperlyConfigured
+
+with open("/Users/ragbadaskar/pythoncode/pydev/chair/keys.json") as f:
+    keys = json.loads(f.read())
+
+def get_keys(setting, keys=keys):
+    try:
+        return keys[setting]
+    except KeyError:
+        error_msg = "Set the {0} environment variable".format(setting)
+        raise ImproperlyConfigured
+
+#SECRET_KEY = '&yk#cq@!fqymw0rliqfk@epkcdy=9c_$_f$m1owmcvf-1$r!_7'
+SECRET_KEY = get_keys("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
