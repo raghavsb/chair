@@ -13,16 +13,12 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 PROJECT_PATH = os.path.dirname(BASE_DIR)
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY KEYS
 import json
 from django.core.exceptions import ImproperlyConfigured
-
-#with open("/Users/ragbadaskar/pythoncode/pydev/chair/keys.json") as f:
-#    keys = json.loads(f.read())
 
 with open(os.path.join(PROJECT_PATH,"keys.json")) as f:
     keys = json.loads(f.read())
@@ -34,7 +30,6 @@ def get_keys(setting, keys=keys):
         error_msg = "Set the {0} environment variable".format(setting)
         raise ImproperlyConfigured
 
-#SECRET_KEY = '&yk#cq@!fqymw0rliqfk@epkcdy=9c_$_f$m1owmcvf-1$r!_7'
 SECRET_KEY = get_keys("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
