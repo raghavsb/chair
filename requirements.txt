@@ -1,0 +1,7 @@
+# Requirements files for the django stack
+
+django-authtools==1.1.0
+django-crispy-forms==1.4.0
+django-model-utils==2.2
+django-braces==1.4.0
+psycopg2==2.6
