@@ -1,11 +1,6 @@
 """
 Django settings for madeforme project.
 
-For more information on this file, see
-https://docs.djangoproject.com/en/1.7/topics/settings/
-
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -49,6 +44,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'authtools',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -91,6 +87,29 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+
+
+# Path structure for template and static files
+
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, 'templates'),
+    os.path.join(BASE_DIR, 'templates', 'homepage'),
+)
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "static", "css"),
+    os.path.join(BASE_DIR, "static", "js"),
+    os.path.join(BASE_DIR, "static", "images"),
+    os.path.join(BASE_DIR, "static", "fonts"),
+)
+
+
+# User model for madeforme set to django-authtools email based authentication
+SITE_ID = 1
+AUTH_USER_MODEL = 'authtools.User'
+
+
