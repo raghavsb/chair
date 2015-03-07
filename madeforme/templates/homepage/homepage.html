@@ -11,6 +11,11 @@
 <body>
 	<h1>MadeforMe Homepage</h1>
 
+	<h5>Create a buyer account <a href="{% url 'customer:buyersignup' %}">Sign Up</a></h5>
+    <h5>Create a maker account <a href="{% url 'customer:makersignup' %}">Apply</a></h5>
+
+	{% block content %} {% endblock %}
+
 	<!-- ================================================================================================================== -->
 
 	<footer>

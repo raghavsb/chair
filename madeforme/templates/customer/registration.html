@@ -1,0 +1,11 @@
+{% extends "homepage.html" %}
+    {% block content %}
+
+        <form action="." method="post">
+            {% csrf_token %}
+            {{ form.user.as_p }}
+            {{ form.profile.as_p }}
+            <input type="submit" value="Register" class="btn btn-success" />
+        </form>
+
+    {% endblock %}

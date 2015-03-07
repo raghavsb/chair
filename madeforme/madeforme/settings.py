@@ -45,6 +45,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'authtools',
+    'betterforms',
+    'customer',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -97,6 +99,7 @@ MEDIA_URL = '/media/'
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
     os.path.join(BASE_DIR, 'templates', 'homepage'),
+    os.path.join(BASE_DIR, 'templates', 'customer'),
 )
 
 STATICFILES_DIRS = (
