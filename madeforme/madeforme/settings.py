@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'authtools',
     'betterforms',
+    'crispy_forms',
     'customer',
 )
 
@@ -99,7 +100,7 @@ MEDIA_URL = '/media/'
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
     os.path.join(BASE_DIR, 'templates', 'homepage'),
-    os.path.join(BASE_DIR, 'templates', 'customer'),
+    os.path.join(BASE_DIR, 'templates', 'registration'),
 )
 
 STATICFILES_DIRS = (
@@ -115,4 +116,5 @@ STATICFILES_DIRS = (
 SITE_ID = 1
 AUTH_USER_MODEL = 'authtools.User'
 
-
+# Template packs used by django_crispy_forms
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
