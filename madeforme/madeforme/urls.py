@@ -13,9 +13,6 @@ urlpatterns = patterns('',
     # Homepage urls
     url(r'^$', HomepageView.as_view(), name='homepage'),
 
-    # Authentication urls as per django-authtools
-    url(r'^accounts/', include('authtools.urls', namespace='accounts')),
-
     # Customer urls to manager registration and update of buyer, maker profile 
     url(r'^customer/', include('customer.urls', namespace='customer')),
 

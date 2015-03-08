@@ -115,6 +115,7 @@ STATICFILES_DIRS = (
 # User model for madeforme set to django-authtools email based authentication
 SITE_ID = 1
 AUTH_USER_MODEL = 'authtools.User'
+LOGIN_REDIRECT_URL = '/customer/redirect'
 
 # Template packs used by django_crispy_forms
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
