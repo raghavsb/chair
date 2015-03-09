@@ -11,13 +11,13 @@ urlpatterns = patterns('',
     url(r'maker/signup/$', MakerSignupView.as_view(), name='makersignup'),
 
     # Authentication urls as per django-authtools
-    url(r'', include('authtools.urls', namespace='accounts')),
+    url(r'', include('authtools.urls')),
 
     # Login redirect urls - distinguish between a buyer and a maker
     url(r'redirect/$', CustomerRedirectView.as_view(), name='customerredirect'),
 
     # Profile view urls for buyers and makers
-    url(r'buyer/(?P<name>\w+)/$', BuyerProfileView.as_view(), name='buyerprofileview'),
-    url(r'maker/(?P<name>\w+)/$', MakerProfileView.as_view(), name='Makerprofileview'),
+    url(r'buyer/(?P<user_name>\w+)/$', BuyerProfileView.as_view(), name='buyerprofileview'),
+    url(r'maker/(?P<user_name>\w+)/$', MakerProfileView.as_view(), name='makerprofileview'),
 
 )
