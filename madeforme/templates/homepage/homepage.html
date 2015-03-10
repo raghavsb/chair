@@ -13,7 +13,14 @@
 
 	<h5>Create a buyer account <a href="{% url 'customer:buyersignup' %}">Sign Up</a></h5>
     <h5>Create a maker account <a href="{% url 'customer:makersignup' %}">Apply</a></h5>
-    <h5>Login <a href="{% url 'customer:login' %}">Apply</a></h5>
+    
+    {% if profile.user %}
+		<h4>Welcome {{ profile.user.name }}</h4>
+		<h5>Logout <a href="{% url 'customer:logout' %}">Apply</a></h5>
+	{% else %}
+		<h5>Login <a href="{% url 'customer:login' %}">Apply</a></h5>
+	{% endif %}
+
 
 	{% block content %} {% endblock content %}
 

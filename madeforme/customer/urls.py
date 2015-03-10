@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from .views import BuyerSignupView, MakerSignupView, CustomerRedirectView, BuyerProfileView, MakerProfileView
+from .views import BuyerSignupView, MakerSignupView, CustomerRedirectView, ProfileView
 
 # Because of strong linkages with django-authtools, template folder of this app is named registration
 
@@ -17,7 +17,6 @@ urlpatterns = patterns('',
     url(r'redirect/$', CustomerRedirectView.as_view(), name='customerredirect'),
 
     # Profile view urls for buyers and makers
-    url(r'buyer/(?P<user_name>\w+)/$', BuyerProfileView.as_view(), name='buyerprofileview'),
-    url(r'maker/(?P<user_name>\w+)/$', MakerProfileView.as_view(), name='makerprofileview'),
+    url(r'profile/(?P<user_name>\w+)/$', ProfileView.as_view(), name='profileview'),
 
 )

@@ -4,8 +4,11 @@ from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic import CreateView, UpdateView, RedirectView, TemplateView
 
+from braces.views import LoginRequiredMixin
+
 from .forms import BuyerCreationMultiForm, MakerCreationMultiForm
 from .models import BuyerProfile, MakerProfile
+from .mixins import CheckProfileMixin 
 
 # Customer creation and login views
 
@@ -19,28 +22,20 @@ class MakerSignupView(CreateView):
 	success_url = reverse_lazy('homepage')
 	template_name = 'registration.html'
 
-class CustomerRedirectView(RedirectView):
-	
+class CustomerRedirectView(CheckProfileMixin, RedirectView):
+
 	def get(self, request, *args, **kwargs):
-		user = self.request.user
-		try:
-			buyer = user.buyerprofile # check this logic of adding data to self.buyer
-			buyername = buyer.get_full_name()
-			self.url = reverse('customer:buyerprofileview', kwargs = {'user_name': buyername})
-			return super(CustomerRedirectView, self).get(request, *args, **kwargs)
-		except ObjectDoesNotExist as NotaBuyer:
-			try:
-				maker = user.makerprofile # check this logic of adding data to self.maker
-				makername = maker.get_full_name()
-				self.url = reverse('customer:makerprofileview', kwargs = {'user_name': makername})
-			except ObjectDoesNotExist as NotaMaker:
-				messages.warning(request, 'Profile Does not Exist')
-				return reverse('homepage')
+		self.url = self.get_profile_type().url
 		return super(CustomerRedirectView, self).get(request, *args, **kwargs)
-			
 
-class BuyerProfileView(TemplateView):
-	pass
+class ProfileView(LoginRequiredMixin, CheckProfileMixin, TemplateView):
+	template_name = 'homepage.html'
 
-class MakerProfileView(TemplateView):
-	pass
+	def get_context_data(self,**kwargs):
+		context = super(ProfileView,self).get_context_data(**kwargs)
+		profile = self.get_profile_type().profile
+		context['profile'] = profile
+		context['flag'] = profile.is_maker
+		return context
+
+
