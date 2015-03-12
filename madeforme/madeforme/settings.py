@@ -119,3 +119,6 @@ LOGIN_REDIRECT_URL = '/customer/redirect'
 
 # Template packs used by django_crispy_forms
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+# Email backend
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

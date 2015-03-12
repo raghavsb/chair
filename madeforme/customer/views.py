@@ -5,6 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic import CreateView, UpdateView, RedirectView, TemplateView
 
 from braces.views import LoginRequiredMixin
+from authtools import views as authviews
 
 from .forms import BuyerCreationMultiForm, MakerCreationMultiForm
 from .models import BuyerProfile, MakerProfile
@@ -38,4 +39,29 @@ class ProfileView(LoginRequiredMixin, CheckProfileMixin, TemplateView):
 		context['flag'] = profile.is_maker
 		return context
 
+class ProfileUpdateView(UpdateView):
+	pass
+
+class LoginView(authviews.LoginView):
+	template_name = "login.html"
+
+class LogoutView(authviews.LogoutView):
+	template_name = 'homepage.html'
+
+class PasswordChangeView(authviews.PasswordChangeView):
+	template_name = 'password_change_form.html'
+	success_url = reverse_lazy('homepage')
+
+class PasswordResetView(authviews.PasswordResetView):
+	template_name = 'password_reset_form.html'
+	success_url = reverse_lazy('homepage')
+	subject_template_name = 'password_reset_subject.txt'
+	email_template_name = 'password_reset_email.html'
+
+	def form_valid(self,form):
+		messages.success(self.request,"Your password details sent to your registered email, ""Please check")
+		return super(PasswordResetView,self).form_valid(form)
+
+class PasswordResetConfirmView(authviews.PasswordResetConfirmAndLoginView):
+	template_name = 'password_reset_confirm.html'
 
