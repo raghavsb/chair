@@ -21,6 +21,8 @@
 		<h4>Welcome {{ profile.user.name }}</h4>
 		<h5>Logout <a href="{% url 'customer:logout' %}">Apply</a></h5>
 		<h5>Password Change <a href="{% url 'customer:passwordchange' %}">Apply</a></h5>
+		<h5>Profile Detail <a href="{% url 'customer:profiledetail' profile.user.name %}">Detail</a></h5>
+		<h5>Profile Update <a href="{% url 'customer:buyerprofileupdate' profile.user.name %}">Update</a></h5>
 	{% else %}
 		<h5>Login <a href="{% url 'customer:login' %}">Apply</a></h5>
 		<h5>Forgot Password <a href="{% url 'customer:passwordreset' %}">Reset</a></h5>

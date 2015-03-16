@@ -25,3 +25,5 @@ class CheckProfileMixin(object):
 			except ObjectDoesNotExist as NotaMaker:
 				messages.warning(request, 'Profile Does not Exist')
 				return reverse('homepage')
+
+
