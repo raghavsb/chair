@@ -47,7 +47,7 @@ class ProfileView(LoginRequiredMixin, CheckProfileMixin, TemplateView):
 	"""
 	template_name = 'homepage.html'
 
-	def get_context_data(self,**kwargs): # increase the fields added to the context - reduce database hits
+	def get_context_data(self, **kwargs): # Change this to add more data to the template
 		context = super(ProfileView,self).get_context_data(**kwargs)
 		profile = self.get_profile_type().profile
 		context['profile'] = profile
@@ -56,7 +56,7 @@ class ProfileView(LoginRequiredMixin, CheckProfileMixin, TemplateView):
 
 class BuyerProfileUpdateView(LoginRequiredMixin, UpdateView):
 	"""
-		Allows buyers to update the profile details
+		Allows buyers to update the profile details, will be presented in template based on user type
 	"""
 
 	form_class = BuyerProfileForm
@@ -67,18 +67,29 @@ class BuyerProfileUpdateView(LoginRequiredMixin, UpdateView):
 	def get_object(self):
 		return get_object_or_404(BuyerProfile, user = self.request.user)
 
-class MakerProfileUpdateView(LoginRequiredMixin, UpdateView): # Check if this can be transformed into a single method
+	def get_context_data(self, **kwargs): # Change this to add more data to the template
+		context = super(BuyerProfileUpdateView, self).get_context_data(**kwargs)
+		profile = self.get_object()
+		context['flag'] = profile.check_maker()
+		return context
+
+class MakerProfileUpdateView(LoginRequiredMixin, UpdateView):
 	"""
-		Allows maker to update the profile details
+		Allows maker to update the profile details, will be presented in template based on user type
 	"""
 	form_class = MakerProfileForm
 	template_name = 'profile_edit_form.html'
 	success_message = 'Your profile has been updated'
-	success_url = reverse_lazy('homepage') # change to profile detail view
+	success_url = reverse_lazy('homepage')
 
 	def get_object(self):
 		return get_object_or_404(MakerProfile, user = self.request.user)
 
+	def get_context_data(self, **kwargs): # Change this to add more data to the template
+		context = super(MakerProfileUpdateView, self).get_context_data(**kwargs)
+		profile = self.get_object()
+		context['flag'] = profile.check_maker()
+		return context
 
 class ProfileDetailView(LoginRequiredMixin, CheckProfileMixin, DetailView): 
 	template_name = 'test.html' #Change the template
@@ -88,7 +99,7 @@ class ProfileDetailView(LoginRequiredMixin, CheckProfileMixin, DetailView):
 		profile = self.get_profile_type().profile
 		return profile
 
-	def get_context_data(self,**kwargs):
+	def get_context_data(self,**kwargs): # Change this to add more data to the template
 		context = super(ProfileDetailView, self).get_context_data(**kwargs)
 		profile = self.get_profile_type().profile
 		if profile.is_maker: # change the logic here
@@ -98,7 +109,6 @@ class ProfileDetailView(LoginRequiredMixin, CheckProfileMixin, DetailView):
 			context['name'] = profile.user.name
 			context['email'] = profile.user.email
 		return context
-
 
 class LoginView(authviews.LoginView):
 	"""

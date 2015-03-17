@@ -31,7 +31,7 @@ class BuyerProfile(models.Model):
 		return self.pincode
 
 	def check_maker(self):
-		if is_maker:
+		if self.is_maker:
 			return True
 		return False
 
@@ -67,11 +67,11 @@ class MakerProfile(models.Model):
 		return self.pincode
 
 	def check_maker(self):
-		if is_maker:
+		if self.is_maker:
 			return True
 		return False
 
 	def get_status(self):
-		if is_approved:
+		if self.is_approved:
 			return True
 		return False

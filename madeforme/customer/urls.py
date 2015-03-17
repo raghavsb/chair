@@ -24,7 +24,7 @@ urlpatterns = patterns('',
 
     # Profile view urls for buyers and makers
     url(r'profile/(?P<user_name>\w+)/$', ProfileView.as_view(), name='profileview'),
-     url(r'profiledetail/(?P<user_name>\w+)/$', ProfileDetailView.as_view(), name='profiledetail'),
+    url(r'profiledetail/(?P<user_name>\w+)/$', ProfileDetailView.as_view(), name='profiledetail'),
 
     # Profile update view urls for buyers and makers
     url(r'buyer_profile_update/(?P<user_name>\w+)/$', BuyerProfileUpdateView.as_view(), name='buyerprofileupdate'),
