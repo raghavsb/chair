@@ -43,7 +43,7 @@ class CustomerRedirectView(CheckProfileMixin, RedirectView):
 
 class ProfileView(LoginRequiredMixin, CheckProfileMixin, TemplateView):
 	"""
-		Injects the required profile details in the templateview, users can maneuver the specific menu
+		Profile page after the user signs up, this will have the account, project menu for the user to navigate
 	"""
 	template_name = 'homepage.html'
 
@@ -80,6 +80,9 @@ class ProfileUpdateView(LoginRequiredMixin, CheckProfileMixin, UpdateView):
 		return reverse('customer:profileview', kwargs={'user_name': self.request.user.name})
 
 class ProfileDetailView(LoginRequiredMixin, CheckProfileMixin, DetailView): 
+	"""
+		Detailed fields, depending on the user type buyer or maker
+	"""
 	template_name = 'test.html' #Change the template
 	context_object_name = 'profile'
 
