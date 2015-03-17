@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 
-from .views import BuyerSignupView, MakerSignupView, CustomerRedirectView, ProfileView, ProfileDetailView, BuyerProfileUpdateView, \
-MakerProfileUpdateView, LoginView, LogoutView, PasswordChangeView, PasswordResetView, PasswordResetConfirmView
+from .views import BuyerSignupView, MakerSignupView, CustomerRedirectView, ProfileView, ProfileDetailView, \
+LoginView, LogoutView, PasswordChangeView, PasswordResetView, PasswordResetConfirmView, ProfileUpdateView
 
 # Because of strong linkages with django-authtools, template folder of this app is named registration
 
@@ -27,7 +27,6 @@ urlpatterns = patterns('',
     url(r'profiledetail/(?P<user_name>\w+)/$', ProfileDetailView.as_view(), name='profiledetail'),
 
     # Profile update view urls for buyers and makers
-    url(r'buyer_profile_update/(?P<user_name>\w+)/$', BuyerProfileUpdateView.as_view(), name='buyerprofileupdate'),
-    url(r'maker_profile_update/(?P<user_name>\w+)/$', MakerProfileUpdateView.as_view(), name='makerprofileupdate'),
+    url(r'profileupdate/(?P<user_name>\w+)/$', ProfileUpdateView.as_view(), name='profileupdate'),
 
 )

@@ -14,19 +14,18 @@
 	<h5>Create a buyer account <a href="{% url 'customer:buyersignup' %}">Sign Up</a></h5>
     <h5>Create a maker account <a href="{% url 'customer:makersignup' %}">Apply</a></h5>
 
+    {% if profile.user %}
+
     {% for message in messages %}
     	<p>{{ message }}</p>
     {% endfor %}
-    {% if profile.user %}
+
 		<h4>Welcome {{ profile.user.name }}</h4>
 		<h5>Logout <a href="{% url 'customer:logout' %}">Apply</a></h5>
 		<h5>Password Change <a href="{% url 'customer:passwordchange' %}">Change</a></h5>
 		<h5>Profile Detail <a href="{% url 'customer:profiledetail' profile.user.name %}">Detail</a></h5>
-		{% if flag %}
-			<h5>Profile Update <a href="{% url 'customer:makerprofileupdate' profile.user.name %}">Update</a></h5>
-		{% else %}
-			<h5>Profile Update <a href="{% url 'customer:buyerprofileupdate' profile.user.name %}">Update</a></h5>
-		{% endif %}
+		<h5>Profile Update <a href="{% url 'customer:profileupdate' profile.user.name %}">Update</a></h5>
+		<h5>{{ flag }}</h5>
 	{% else %}
 		<h5>Login <a href="{% url 'customer:login' %}">Apply</a></h5>
 		<h5>Forgot Password <a href="{% url 'customer:passwordreset' %}">Reset</a></h5>
