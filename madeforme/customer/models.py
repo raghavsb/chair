@@ -7,7 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 
 class BuyerProfile(models.Model):
 	user = models.OneToOneField(settings.AUTH_USER_MODEL)
-	pincode = models.CharField(max_length=6)
+	pincode = models.CharField(max_length=6, default='560001')
 	date_joined = models.DateTimeField(auto_now=True)
 	is_maker = models.BooleanField(default=False)
 

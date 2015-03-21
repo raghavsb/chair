@@ -7,28 +7,52 @@
 <!-- 	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 	<link rel="stylesheet" href="{% static 'css/bespoke.css' %}">
 	<link href='http://fonts.googleapis.com/css?family=Abril+Fatface|Vollkorn:700italic,400,700' rel='stylesheet' type='text/css'> -->
+<style>
+	#nav ul {
+    list-style: none;
+	}
+
+	#nav ul li {
+    position: relative;
+    display: inline-block;
+	}	
+</style>
+
+
 </head>
 <body>
 	<h1>MadeforMe Homepage</h1>
 
-	<h5>Create a buyer account <a href="{% url 'customer:buyersignup' %}">Sign Up</a></h5>
-    <h5>Create a maker account <a href="{% url 'customer:makersignup' %}">Apply</a></h5>
+	{% if not user.is_authenticated %}
+		<div id="nav">
+			<ul>
+				<li><h5><a href="{% url 'customer:buyersignup' %}">Create a buyer account</a></h5></li>
+	    		<li><h5> <a href="{% url 'customer:makersignup' %}">Create a maker account</a></h5></li>
+			</ul>
+		</div>
+    {% endif %}
 
-    {% if profile.user %}
+    {% if user.is_authenticated %}
 
     {% for message in messages %}
     	<p>{{ message }}</p>
     {% endfor %}
 
 		<h4>Welcome {{ profile.user.name }}</h4>
-		<h5>Logout <a href="{% url 'customer:logout' %}">Apply</a></h5>
-		<h5>Password Change <a href="{% url 'customer:passwordchange' %}">Change</a></h5>
-		<h5>Profile Detail <a href="{% url 'customer:profiledetail' profile.user.name %}">Detail</a></h5>
-		<h5>Profile Update <a href="{% url 'customer:profileupdate' profile.user.name %}">Update</a></h5>
-		<h5>{{ flag }}</h5>
+		<div id="nav">
+			<ul>
+				<li><h5> <a href="{% url 'customer:logout' %}">Logout</a></h5></li>
+				<li><h5> <a href="{% url 'customer:passwordchange' %}">Password Change</a></h5></li>
+				<li><h5> <a href="{% url 'customer:profiledetail' user.name %}?next={{ request.path }}">Profile</a></h5></li>
+				<li><h5> <a href="{% url 'customer:profileupdate' user.name %}?next={{ request.path }}">Profile Update</a></h5></li>
+			</ul>
+		</div>
 	{% else %}
-		<h5>Login <a href="{% url 'customer:login' %}">Apply</a></h5>
-		<h5>Forgot Password <a href="{% url 'customer:passwordreset' %}">Reset</a></h5>
+		<div id="nav">
+			<ul>
+				<li><h5><a href="{% url 'customer:login' %}">Login</a></h5></li>
+			</ul>
+		</div>
 	{% endif %}
 
 

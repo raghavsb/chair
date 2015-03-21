@@ -16,6 +16,9 @@ urlpatterns = patterns('',
     # Customer urls to manager registration and update of buyer, maker profile 
     url(r'^customer/', include('customer.urls', namespace='customer')),
 
+    # Facebook authentication
+    url('', include('social.apps.django_app.urls', namespace='social')),
+
     # Admin urls - default
     url(r'^admin/', include(admin.site.urls)),
 

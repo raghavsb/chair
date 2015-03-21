@@ -54,6 +54,28 @@ class ProfileView(LoginRequiredMixin, CheckProfileMixin, TemplateView):
 		context['flag'] = profile.check_maker()
 		return context
 
+class ProfileDetailView(LoginRequiredMixin, CheckProfileMixin, DetailView): 
+	"""
+		Detailed fields, depending on the user type buyer or maker
+	"""
+	template_name = 'test.html' #Change the template
+	context_object_name = 'profile'
+
+	def get_object(self):
+		profile = self.get_profile_type().profile
+		return profile
+
+	def get_context_data(self, **kwargs): # Change this to add more data to the template
+		context = super(ProfileDetailView, self).get_context_data(**kwargs)
+		profile = self.get_profile_type().profile
+		if profile.is_maker: # Change the logic here to inject the required data into the template
+			context['name'] = profile.user.name
+			context['email'] = profile.user.email
+		else:
+			context['name'] = profile.user.name
+			context['email'] = profile.user.email
+		return context
+
 class ProfileUpdateView(LoginRequiredMixin, CheckProfileMixin, UpdateView):
 	"""
 		Allows buyers to update the profile details, will be presented in template based on user type
@@ -78,28 +100,6 @@ class ProfileUpdateView(LoginRequiredMixin, CheckProfileMixin, UpdateView):
 		"""
 		messages.success(self.request, self.success_message)
 		return reverse('customer:profileview', kwargs={'user_name': self.request.user.name})
-
-class ProfileDetailView(LoginRequiredMixin, CheckProfileMixin, DetailView): 
-	"""
-		Detailed fields, depending on the user type buyer or maker
-	"""
-	template_name = 'test.html' #Change the template
-	context_object_name = 'profile'
-
-	def get_object(self):
-		profile = self.get_profile_type().profile
-		return profile
-
-	def get_context_data(self, **kwargs): # Change this to add more data to the template
-		context = super(ProfileDetailView, self).get_context_data(**kwargs)
-		profile = self.get_profile_type().profile
-		if profile.is_maker: # Change the logic here to inject the required data into the template
-			context['name'] = profile.user.name
-			context['email'] = profile.user.email
-		else:
-			context['name'] = profile.user.name
-			context['email'] = profile.user.email
-		return context
 
 class LoginView(authviews.LoginView):
 	"""
@@ -138,4 +138,14 @@ class PasswordResetConfirmView(authviews.PasswordResetConfirmAndLoginView):
 		Confirms the change in password when the user clicks the link sent to the registered email
 	"""
 	template_name = 'password_reset_confirm.html'
+
+def save_profile(strategy, details, response, user=None, *args, **kwargs):
+	"""
+		Update user details using the data from facebook
+	"""
+	if user:
+		if kwargs['is_new']:
+			attrs = {'user': user}
+			attrs = dict(attrs.items())
+			BuyerProfile.objects.create(**attrs)
 
