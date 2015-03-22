@@ -1,0 +1,18 @@
+{% extends "homepage.html" %}
+
+{% block content %}
+{% if noaddress %}
+	<h5>{{ noaddress }}</h5>
+	<h5><a href="{% url 'address:buyeraddresscreate' %}?next={{ request.path }}">Address</a></h5>
+{% else %}
+	<ul>
+		<li>{{ address.address_line1 }}</li>
+		<li>{{ address.address_line2 }}</li>
+		<li>{{ address.landmark }}</li>
+		<li>{{ address.city }}</li>
+		<li>{{ address.state }}</li>
+		<li>{{ address.pincode }}</li>
+	</ul>
+	<h5><a href="{% url 'address:buyeraddressupdate' %}?next={{ request.path }}">Update Address</a></h5>
+{% endif %}
+{% endblock content %}

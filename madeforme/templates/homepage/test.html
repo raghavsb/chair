@@ -3,4 +3,20 @@
 {% block content %}
 	<h5>{{ name }}</h5>
 	<h5>{{ email }}</h5>
+	<h5> <a href="{% url 'customer:profileupdate' user.name %}?next={{ request.path }}">Profile Update</a></h5>
+    
+    {% for message in messages %}
+    	<p>{{ message }}</p>
+    {% endfor %}
+	{% if not makerflag %}
+		<ul>
+			<li>{{ address.address_line1 }}</li>
+			<li>{{ address.address_line2 }}</li>
+			<li>{{ address.landmark }}</li>
+			<li>{{ address.city }}</li>
+			<li>{{ address.state }}</li>
+			<li>{{ address.pincode }}</li>
+		</ul>
+		<h5><a href="{% url 'address:buyeraddressupdate' %}?next={{ request.path }}">Update Address</a></h5>
+	{% endif %}
 {% endblock content %}

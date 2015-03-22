@@ -52,6 +52,7 @@ INSTALLED_APPS = (
     'betterforms',
     'crispy_forms',
     'customer',
+    'address',
     'social.apps.django_app.default',
 )
 

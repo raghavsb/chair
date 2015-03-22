@@ -19,7 +19,6 @@ class BuyerSignupView(CreateView):
 		Buyer registration view, uses betterforms to combine profile and user models
 	"""
 	form_class = BuyerCreationMultiForm
-	success_url = reverse_lazy('homepage')
 	template_name = 'registration.html'
 	success_url = reverse_lazy('homepage')
 
@@ -28,7 +27,6 @@ class MakerSignupView(CreateView):
 		Maker registration view, uses betterforms to combine profile and user models
 	"""
 	form_class = MakerCreationMultiForm
-	success_url = reverse_lazy('homepage')
 	template_name = 'registration.html'
 	success_url = reverse_lazy('homepage')
 
@@ -51,15 +49,17 @@ class ProfileView(LoginRequiredMixin, CheckProfileMixin, TemplateView):
 		context = super(ProfileView,self).get_context_data(**kwargs)
 		profile = self.get_profile_type().profile
 		context['profile'] = profile
-		context['flag'] = profile.check_maker()
+		context['makerflag'] = profile.check_maker()
 		return context
 
+# View needs to be edited to injected required data (consider writing a mixin for address) and make template logic easy
 class ProfileDetailView(LoginRequiredMixin, CheckProfileMixin, DetailView): 
 	"""
 		Detailed fields, depending on the user type buyer or maker
 	"""
-	template_name = 'test.html' #Change the template
+	template_name = 'test.html' # Change the template to something better suited for the application
 	context_object_name = 'profile'
+	noaddress_message = 'No address added, please address'
 
 	def get_object(self):
 		profile = self.get_profile_type().profile
@@ -68,12 +68,18 @@ class ProfileDetailView(LoginRequiredMixin, CheckProfileMixin, DetailView):
 	def get_context_data(self, **kwargs): # Change this to add more data to the template
 		context = super(ProfileDetailView, self).get_context_data(**kwargs)
 		profile = self.get_profile_type().profile
-		if profile.is_maker: # Change the logic here to inject the required data into the template
+		if profile.check_maker(): # Change the logic here to inject the required data into the template
 			context['name'] = profile.user.name
 			context['email'] = profile.user.email
+			context['makerflag'] = profile.check_maker()
 		else:
 			context['name'] = profile.user.name
 			context['email'] = profile.user.email
+			context['makerflag'] = profile.check_maker()
+			try:
+				context['address'] = profile.buyeraddress
+			except ObjectDoesNotExist as noaddress:
+				messages.success(self.request,self.noaddress_message)
 		return context
 
 class ProfileUpdateView(LoginRequiredMixin, CheckProfileMixin, UpdateView):
@@ -99,7 +105,7 @@ class ProfileUpdateView(LoginRequiredMixin, CheckProfileMixin, UpdateView):
 			Explicit success_url method to customize the url for specific username
 		"""
 		messages.success(self.request, self.success_message)
-		return reverse('customer:profileview', kwargs={'user_name': self.request.user.name})
+		return reverse('customer:profiledetail', kwargs={'user_name': self.request.user.name})
 
 class LoginView(authviews.LoginView):
 	"""
@@ -128,9 +134,10 @@ class PasswordResetView(authviews.PasswordResetView):
 	success_url = reverse_lazy('homepage')
 	subject_template_name = 'password_reset_subject.txt'
 	email_template_name = 'password_reset_email.html'
+	success_message = "Your password details sent to your registered email, Please check"
 
 	def form_valid(self,form):
-		messages.success(self.request,"Your password details sent to your registered email, ""Please check")
+		messages.success(self.request,self.success_message)
 		return super(PasswordResetView,self).form_valid(form)
 
 class PasswordResetConfirmView(authviews.PasswordResetConfirmAndLoginView):

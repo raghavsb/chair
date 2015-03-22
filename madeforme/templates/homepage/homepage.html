@@ -34,17 +34,12 @@
 
     {% if user.is_authenticated %}
 
-    {% for message in messages %}
-    	<p>{{ message }}</p>
-    {% endfor %}
-
 		<h4>Welcome {{ profile.user.name }}</h4>
 		<div id="nav">
 			<ul>
 				<li><h5> <a href="{% url 'customer:logout' %}">Logout</a></h5></li>
 				<li><h5> <a href="{% url 'customer:passwordchange' %}">Password Change</a></h5></li>
 				<li><h5> <a href="{% url 'customer:profiledetail' user.name %}?next={{ request.path }}">Profile</a></h5></li>
-				<li><h5> <a href="{% url 'customer:profileupdate' user.name %}?next={{ request.path }}">Profile Update</a></h5></li>
 			</ul>
 		</div>
 	{% else %}

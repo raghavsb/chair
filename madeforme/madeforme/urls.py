@@ -13,8 +13,11 @@ urlpatterns = patterns('',
     # Homepage urls
     url(r'^$', HomepageView.as_view(), name='homepage'),
 
-    # Customer urls to manager registration and update of buyer, maker profile 
+    # Customer urls to manage registration and update of buyer, maker profile 
     url(r'^customer/', include('customer.urls', namespace='customer')),
+
+    # Address urls to manage buyer address management 
+    url(r'^address/', include('address.urls', namespace='address')),
 
     # Facebook authentication
     url('', include('social.apps.django_app.urls', namespace='social')),
